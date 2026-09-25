@@ -1,6 +1,8 @@
 package com.example.tipcalculator
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -27,11 +29,24 @@ fun AppNavHost() {
                 ?.getFloat("billAmount") ?: 0f
             val people = backStackEntry.arguments
                 ?.getInt("people") ?: 1
+            val tipPercent by backStackEntry.savedStateHandle
+                .getStateFlow("tipPercent", 15)
+                .collectAsState()
             TipResultScreen(
                 billAmount = billAmount,
                 people = people,
+                tipPercent = tipPercent,
+                onPickPercentClick = { navController.navigate("tipPicker") },
                 onBackClick = { navController.popBackStack() }
             )
+        }
+        composable("tipPicker") {
+            TipPercentPickerScreen(onPercentChosen = { percent ->
+                navController.previousBackStackEntry
+                    ?.savedStateHandle
+                    ?.set("tipPercent", percent)
+                navController.popBackStack()
+            })
         }
     }
 }
