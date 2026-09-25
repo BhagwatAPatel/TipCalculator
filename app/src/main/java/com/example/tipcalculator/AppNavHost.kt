@@ -36,6 +36,7 @@ fun AppNavHost() {
                 billAmount = billAmount,
                 people = people,
                 tipPercent = tipPercent,
+                onGuideScreenClick = { navController.navigate("guideScreen") },
                 onPickPercentClick = { navController.navigate("tipPicker") },
                 onBackClick = { navController.popBackStack() }
             )
@@ -45,6 +46,11 @@ fun AppNavHost() {
                 navController.previousBackStackEntry
                     ?.savedStateHandle
                     ?.set("tipPercent", percent)
+                navController.popBackStack()
+            })
+        }
+        composable("guideScreen") {
+            TippingGuidScreen(onBackClick = {
                 navController.popBackStack()
             })
         }

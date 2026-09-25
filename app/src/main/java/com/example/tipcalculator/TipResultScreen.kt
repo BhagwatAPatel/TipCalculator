@@ -10,6 +10,7 @@ fun TipResultScreen(
     billAmount: Float,
     people: Int,
     tipPercent: Int,
+    onGuideScreenClick: () -> Unit,
     onPickPercentClick: () -> Unit,
     onBackClick: () -> Unit
 ) {
@@ -21,6 +22,9 @@ fun TipResultScreen(
         Text("Each person owes: \$${"%.2f".format(perPerson)}")
         Button(onClick = onPickPercentClick) {
             Text("Choose tip %")
+        }
+        Button(onClick = onGuideScreenClick) {
+            Text("Tipping Guide")
         }
         Button(onClick = onBackClick) {
             Text("Back")
